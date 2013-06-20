@@ -16,7 +16,6 @@ Feature: Creating and reading the Berkshelf lockfile
       {
         "dependencies":{
           "fake":{
-            "constraint":"= 1.0.0",
             "locked_version":"1.0.0"
           }
         }
@@ -62,7 +61,6 @@ Feature: Creating and reading the Berkshelf lockfile
       {
         "sources": {
           "fake": {
-            "constraint": "= 1.0.0",
             "locked_version": "1.0.0"
           }
         }
@@ -99,7 +97,6 @@ Feature: Creating and reading the Berkshelf lockfile
       {
         "dependencies":{
           "fake":{
-            "constraint":"= 0.0.0",
             "path":"./fake"
           }
         }
@@ -121,11 +118,9 @@ Feature: Creating and reading the Berkshelf lockfile
       {
         "dependencies":{
           "fake":{
-            "constraint":"= 1.0.0",
             "locked_version":"1.0.0"
           },
           "dep":{
-            "constraint":"~> 1.0.0",
             "locked_version":"1.0.0"
           }
         }
@@ -145,7 +140,6 @@ Feature: Creating and reading the Berkshelf lockfile
       {
         "dependencies":{
           "berkshelf-cookbook-fixture":{
-            "constraint":"~> 1.0.0",
             "locked_version":"1.0.0"
           }
         }
@@ -157,7 +151,6 @@ Feature: Creating and reading the Berkshelf lockfile
       {
         "dependencies":{
           "berkshelf-cookbook-fixture":{
-            "constraint":"~> 1.0.0",
             "locked_version":"1.0.0"
           }
         }
@@ -178,7 +171,6 @@ Feature: Creating and reading the Berkshelf lockfile
       {
         "dependencies":{
           "berkshelf-cookbook-fixture":{
-            "constraint":"~> 0.1",
             "locked_version":"0.1.0"
           }
         }
@@ -190,7 +182,6 @@ Feature: Creating and reading the Berkshelf lockfile
       {
         "dependencies":{
           "berkshelf-cookbook-fixture":{
-            "constraint":"~> 0.1",
             "locked_version":"0.2.0"
           }
         }
@@ -210,7 +201,6 @@ Feature: Creating and reading the Berkshelf lockfile
       {
         "dependencies":{
           "berkshelf-cookbook-fixture":{
-            "constraint":"= 1.0.0",
             "locked_version":"1.0.0"
           }
         }
@@ -222,7 +212,6 @@ Feature: Creating and reading the Berkshelf lockfile
       {
         "dependencies":{
           "berkshelf-cookbook-fixture":{
-            "constraint":"= 1.0.0",
             "locked_version":"1.0.0"
           }
         }

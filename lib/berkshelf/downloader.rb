@@ -122,12 +122,18 @@ module Berkshelf
       #
       # @return [Berkshelf::CachedCookbook, nil]
       #   the downloaded cached cookbook, or nil if one was not found
+<<<<<<< HEAD
       def download_location(dependency, location, raise_if_not_found = false)
         from_cache(dependency) || location.download(storage_path)
+=======
+      def download_location(source, location, raise_if_not_found = false)
+        location.download(storage_path)
+>>>>>>> e253d0c... Force locked_version on version_constraint (fixes #637)
       rescue Berkshelf::CookbookNotFound
         raise if raise_if_not_found
         nil
       end
+<<<<<<< HEAD
 
       # Load the cached cookbook from the cookbook store.
       #
@@ -149,5 +155,7 @@ module Berkshelf
 
         cookbook_store.satisfy(dependency.name, dependency.version_constraint)
       end
+=======
+>>>>>>> e253d0c... Force locked_version on version_constraint (fixes #637)
   end
 end

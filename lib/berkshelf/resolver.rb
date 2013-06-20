@@ -154,9 +154,11 @@ module Berkshelf
       # @return [Boolean]
       def use_dependency(dependency)
         name       = dependency.name
-        constraint = dependency.version_constraint
-        locked     = source.locked_version
+        locked     = dependency.locked_version
         location   = dependency.location
+
+        source.version_constraint = Solve::Constraint.new(locked.to_s) if locked
+        constraint = source.version_constraint
 
         if dependency.downloaded?
           cached = dependency.cached_cookbook
@@ -166,8 +168,7 @@ module Berkshelf
         elsif location.is_a?(GitLocation)
           false
         else
-          # If a locked version if specified (from the lockfile, for example),
-          # we must honor it
+          # If a locked version if specified, it must exist
           if locked
             cached = downloader.cookbook_store.cookbook(name, locked)
           else
