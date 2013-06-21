@@ -252,3 +252,19 @@ Feature: Uploading cookbooks to a Chef Server
     And the Chef Server should not have the cookbooks:
       | ekaf  | 2.0.0 |
     And the exit status should be 0
+
+  Scenario: When the cookbook already exist
+    Given the cookbook store has the cookbooks:
+      | fake  | 1.0.0 |
+    And the Chef server has frozen cookbooks:
+      | fake  | 1.0.0 |
+    And I write to "Berksfile" with:
+      """
+      cookbook 'fake', '1.0.0'
+      """
+    When I run `berks upload`
+    Then the output should contain:
+      """
+      The cookbook fake (1.0.0) already exists and is frozen on the Chef server. Use the 'force' option to override.
+      """
+    And the CLI should exit with the status code for error "FrozenCookbook"
