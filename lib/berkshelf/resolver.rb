@@ -157,8 +157,8 @@ module Berkshelf
         locked     = dependency.locked_version
         location   = dependency.location
 
-        source.version_constraint = Solve::Constraint.new(locked.to_s) if locked
-        constraint = source.version_constraint
+        dependency.version_constraint = Solve::Constraint.new(locked.to_s) if locked
+        constraint = dependency.version_constraint
 
         if dependency.downloaded?
           cached = dependency.cached_cookbook
