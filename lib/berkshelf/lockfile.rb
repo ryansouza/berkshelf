@@ -37,7 +37,13 @@ module Berkshelf
       end
     end
 
-    # The list of sources constrained in this lockfile.
+    # Set the sha value to nil to mark that the lockfile is not out of
+    # sync with the Berksfile.
+    def reset_sha!
+      @sha = nil
+    end
+
+    # The list of dependencies constrained in this lockfile.
     #
     # @return [Array<Berkshelf::Dependency>]
     #   the list of dependencies in this lockfile
@@ -209,8 +215,8 @@ module Berkshelf
             dependencies = {}.tap do |hash|
               content.split("\n").each do |line|
                 next if line.empty?
-                source            = new(berksfile, line)
-                hash[source.name] = source.options
+                dependency            = new(berksfile, line)
+                hash[dependency.name] = dependency.options
               end
             end
 
