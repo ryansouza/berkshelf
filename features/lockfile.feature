@@ -41,7 +41,6 @@ Feature: Creating and reading the Berkshelf lockfile
       {
         "dependencies": {
           "fake": {
-            "constraint": "= 1.0.0",
             "locked_version": "1.0.0"
           }
         }
@@ -73,7 +72,6 @@ Feature: Creating and reading the Berkshelf lockfile
       {
         "dependencies": {
           "fake": {
-            "constraint": "= 1.0.0",
             "locked_version": "1.0.0"
           }
         }
