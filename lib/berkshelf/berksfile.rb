@@ -498,6 +498,9 @@ module Berkshelf
     #   Disable/Enable SSL verification during uploads
     # @option options [Boolean] :skip_dependencies (false)
     #   Skip uploading dependent cookbook(s).
+    # @option options [Boolean] :halt_on_frozen (false)
+    #   Raise a FrozenCookbook error if one of the cookbooks being uploaded is already located
+    #   on the remote Chef Server and frozen.
     # @option options [String] :server_url
     #   An overriding Chef Server to upload the cookbooks to
     #
@@ -510,16 +513,16 @@ module Berkshelf
       options = {
         force: false,
         freeze: true,
+        halt_on_frozen: false,
         skip_dependencies: false,
       }.merge(options)
 
-      cookbooks   = install(options)
-      conn        = ridley_connection(options)
+      cookbooks = install(options)
+      conn      = ridley_connection(options)
 
       validate_cookbook_names!(options)
 
       cookbooks.each do |cookbook|
-        Berkshelf.formatter.upload(cookbook.cookbook_name, cookbook.version, conn.server_url)
         validate_files!(cookbook)
 
         begin
@@ -530,8 +533,15 @@ module Berkshelf
           }
 
           conn.cookbook.upload(cookbook.path, upload_options)
+          Berkshelf.formatter.upload(cookbook, conn)
         rescue Ridley::Errors::FrozenCookbook => e
-          raise Berkshelf::FrozenCookbook, e
+          raise Berkshelf::FrozenCookbook, e if options[:halt_on_forzen]
+
+          if dependency = find(cookbook.cookbook_name)
+            raise Berkshelf::FrozenCookbook, e if dependency.metadata?
+          end
+
+          Berkshelf.formatter.skip(cookbook, conn)
         end
       end
     rescue Ridley::Errors::RidleyError => ex

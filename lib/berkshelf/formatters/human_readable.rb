@@ -32,11 +32,20 @@ module Berkshelf
 
       # Output a Cookbook upload message using {Berkshelf.ui}
       #
-      # @param [String] cookbook
-      # @param [String] version
-      # @param [String] chef_api_url
-      def upload(cookbook, version, chef_api_url)
-        Berkshelf.ui.info "Uploading #{cookbook} (#{version}) to: '#{chef_api_url}'"
+      # @param [Berkshelf::CachedCookbook] cookbook
+      # @param [Ridley::Connection] conn
+      def upload(cookbook, conn)
+        name_and_version = "#{cookbook.cookbook_name} (#{cookbook.version})"
+        Berkshelf.ui.info "Uploading #{name_and_version} to: '#{conn.server_url}'"
+      end
+
+      # Output a Cookbook skip message using {Berkshelf.ui}
+      #
+      # @param [Berkshelf::CachedCookbook] cookbook
+      # @param [Ridley::Connection] conn
+      def skip(cookbook, conn)
+        name_and_version = "#{cookbook.cookbook_name} (#{cookbook.version})"
+        Berkshelf.ui.info "Skipping #{name_and_version} (already uploaded)"
       end
 
       # Output a Cookbook package message using {Berkshelf.ui}

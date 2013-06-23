@@ -262,9 +262,26 @@ Feature: Uploading cookbooks to a Chef Server
       """
       cookbook 'fake', '1.0.0'
       """
+    When I successfully run `berks upload`
+    Then the output should contain:
+      """
+      Skipping fake (1.0.0) (already uploaded)
+      """
+    And the exit status should be 0
+
+  @chef_server @slow_process
+  Scenario: When the cookbook already exist and is a metadata location
+    Given a cookbook named "fake"
+    And the cookbook "fake" has the file "Berksfile" with:
+      """
+      metadata
+      """
+    When I cd to "fake"
+    And the Chef server has frozen cookbooks:
+      | fake  | 0.0.0 |
     When I run `berks upload`
     Then the output should contain:
       """
-      The cookbook fake (1.0.0) already exists and is frozen on the Chef server. Use the 'force' option to override.
+      The cookbook fake (0.0.0) already exists and is frozen on the Chef server. Use the 'force' option to override.
       """
     And the CLI should exit with the status code for error "FrozenCookbook"

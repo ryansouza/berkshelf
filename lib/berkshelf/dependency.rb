@@ -111,6 +111,7 @@ module Berkshelf
 
       @berksfile          = berksfile
       @name               = name
+      @metadata           = options[:metadata]
       @locked_version     = Solve::Version.new(options[:locked_version]) if options[:locked_version]
       @version_constraint = Solve::Constraint.new(options[:constraint] || DEFAULT_CONSTRAINT)
 
@@ -127,6 +128,13 @@ module Berkshelf
         group = group.to_sym
         groups << group unless groups.include?(group)
       end
+    end
+
+    # Return true if this is a metadata location.
+    #
+    # @return [Boolean]
+    def metadata?
+      !!@metadata
     end
 
     # Determine the CachedCookbook and Location information from the given options.
