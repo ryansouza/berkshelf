@@ -282,6 +282,6 @@ Feature: Uploading cookbooks to a Chef Server
     When I run `berks upload`
     Then the output should contain:
       """
-      The cookbook fake (0.0.0) already exists and is frozen on the Chef server. Use the 'force' option to override.
+      The cookbook fake (0.0.0) already exists and is frozen on the Chef Server. Use the --force option to override.
       """
     And the CLI should exit with the status code for error "FrozenCookbook"

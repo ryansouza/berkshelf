@@ -226,7 +226,22 @@ module Berkshelf
   class ClientKeyFileNotFound < BerkshelfError; status_code(125); end
 
   class UploadFailure < BerkshelfError; end
-  class FrozenCookbook < UploadFailure; status_code(126); end
+
+  class FrozenCookbook < UploadFailure
+    status_code(126)
+
+    # @param [CachedCookbook] cookbook
+    def initialize(cookbook)
+      @cookbook = cookbook
+    end
+
+    def to_s
+      "The cookbook #{@cookbook.cookbook_name} (#{@cookbook.version})" <<
+        " already exists and is frozen on the Chef Server. Use the --force" <<
+        " option to override."
+    end
+  end
+
   class InvalidSiteShortnameError < BerkshelfError
     status_code(127)
 

@@ -56,9 +56,10 @@ module Berkshelf
       # @param [Berkshelf::CachedCookbook] cookbook
       # @param [Ridley::Connection] conn
       def upload(cookbook, conn)
-        cookbooks[cookbook] ||= {}
-        cookbooks[cookbook][:version] = version
-        cookbooks[cookbook][:uploaded_to] = conn.server_url
+        name = cookbook.cookbook_name
+        cookbooks[name] ||= {}
+        cookbooks[name][:version] = cookbook.version
+        cookbooks[name][:uploaded_to] = conn.server_url
       end
 
       # Add a Cookbook skip entry to delayed output
@@ -66,9 +67,10 @@ module Berkshelf
       # @param [Berkshelf::CachedCookbook] cookbook
       # @param [Ridley::Connection] conn
       def skip(cookbook, conn)
-        cookbooks[cookbook] ||= {}
-        cookbooks[cookbook][:version] = version
-        cookbooks[cookbook][:skipped] = true
+        name = cookbook.cookbook_name
+        cookbooks[name] ||= {}
+        cookbooks[name][:version] = cookbook.version
+        cookbooks[name][:skipped] = true
       end
 
       # Add a Cookbook package entry to delayed output
