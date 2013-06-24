@@ -507,8 +507,9 @@ module Berkshelf
     # @raise [UploadFailure]
     #   if you are uploading cookbooks with an invalid or not-specified client key
     # @raise [Berkshelf::FrozenCookbook]
-    #   If the cookbook is frozen on the remote server and the :force option
-    #   was not specified
+    #   if the cookbook being uploaded is a {metadata} cookbook and is already
+    #   frozen on the remote Chef Server; indirect dependencies or non-metadata
+    #   dependencies are just skipped
     def upload(options = {})
       options = {
         force: false,
