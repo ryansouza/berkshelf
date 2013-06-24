@@ -536,7 +536,7 @@ module Berkshelf
           conn.cookbook.upload(cookbook.path, upload_options)
           Berkshelf.formatter.upload(cookbook, conn)
         rescue Ridley::Errors::FrozenCookbook => e
-          raise Berkshelf::FrozenCookbook.new(cookbook) if options[:halt_on_forzen]
+          raise Berkshelf::FrozenCookbook.new(cookbook) if options[:halt_on_frozen]
 
           if dependency = find(cookbook.cookbook_name)
             raise Berkshelf::FrozenCookbook.new(cookbook) if dependency.metadata?
