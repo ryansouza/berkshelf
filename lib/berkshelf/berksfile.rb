@@ -518,6 +518,7 @@ module Berkshelf
         skip_dependencies: false,
       }.merge(options)
 
+      @skipped  = []
       cookbooks = install(options)
       conn      = ridley_connection(options)
 
@@ -543,7 +544,16 @@ module Berkshelf
           end
 
           Berkshelf.formatter.skip(cookbook, conn)
+          @skipped << cookbook
         end
+      end
+
+      unless @skipped.empty?
+        Berkshelf.formatter.msg "Skipped uploading some cookbooks because they" <<
+          " already existed on the remote server. Re-run with the `--force`" <<
+          " flag to force overwrite these cookbooks:" <<
+          "\n\n" <<
+          "  * " << @skipped.map { |c| "#{c.cookbook_name} (#{c.version})" }.join("\n  * ")
       end
     rescue Ridley::Errors::RidleyError => ex
       log_exception(ex)

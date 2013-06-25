@@ -267,9 +267,14 @@ Feature: Uploading cookbooks to a Chef Server
       """
       Skipping fake (1.0.0) (already uploaded)
       """
+    And the output should contain:
+      """
+      Skipped uploading some cookbooks because they already existed on the remote server. Re-run with the `--force` flag to force overwrite these cookbooks:
+
+        * fake (1.0.0)
+      """
     And the exit status should be 0
 
-  @chef_server @slow_process
   Scenario: When the cookbook already exist and is a metadata location
     Given a cookbook named "fake"
     And the cookbook "fake" has the file "Berksfile" with:
@@ -284,4 +289,4 @@ Feature: Uploading cookbooks to a Chef Server
       """
       The cookbook fake (0.0.0) already exists and is frozen on the Chef Server. Use the --force option to override.
       """
-    And the CLI should exit with the status code for error "FrozenCookbook"
+    And the exit status should be "FrozenCookbook"
