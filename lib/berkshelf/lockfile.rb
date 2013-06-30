@@ -37,12 +37,6 @@ module Berkshelf
       end
     end
 
-    # Set the sha value to nil to mark that the lockfile is not out of
-    # sync with the Berksfile.
-    def reset_sha!
-      @sha = nil
-    end
-
     # The list of dependencies constrained in this lockfile.
     #
     # @return [Array<Berkshelf::Dependency>]
