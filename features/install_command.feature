@@ -437,7 +437,10 @@ Feature: install cookbooks from a Berksfile
       Unknown site shortname 'somethingabsurd' - supported shortnames are:
       """
 
-  Scenario: transitive dependencies in metadata are honored
+  @focus
+  Scenario: transitive dependencies in metadata
+    Given the cookbook store contains a cookbook "fake" "1.0.0" with dependencies:
+      | berkshelf-cookbook-fixture | >= 0.0.0 |
     Given I write to "Berksfile" with:
       """
       site :opscode
@@ -445,11 +448,37 @@ Feature: install cookbooks from a Berksfile
       """
     And I write to "metadata.rb" with:
       """
-      depends 'mysql', '3.0.2'   # depends on openssl
-      depends 'openssl', '1.0.0'
+      depends 'fake', '1.0.0'
+      depends 'berkshelf-cookbook-fixture', '0.2.0'
       """
-    When I run `berks install`
-    Then the output should contain:
+    When I successfully run `berks install`
+    Then the cookbook store should have the cookbooks:
+      | berkshelf-cookbook-fixture | 0.2.0 |
+    And the output should contain:
       """
-      Installing openssl (1.0.0)
+      Installing berkshelf-cookbook-fixture (0.2.0)
+      """
+
+  @focus
+  Scenario: transitive dependencies in metadata when cookbooks are downloaded
+    Given the cookbook store contains a cookbook "fake" "1.0.0" with dependencies:
+      | bacon | >= 0.0.0 |
+    And the cookbook store has the cookbooks:
+      | bacon | 1.0.2 |
+      | bacon | 1.0.0 |
+      | bacon | 0.1.0 |
+    Given I write to "Berksfile" with:
+      """
+      site :opscode
+      metadata
+      """
+    And I write to "metadata.rb" with:
+      """
+      depends 'fake', '1.0.0'
+      depends 'bacon', '1.0.0'
+      """
+    When I successfully run `berks install`
+    And the output should contain:
+      """
+      Using bacon (1.0.0)
       """
