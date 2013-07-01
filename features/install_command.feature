@@ -437,7 +437,6 @@ Feature: install cookbooks from a Berksfile
       Unknown site shortname 'somethingabsurd' - supported shortnames are:
       """
 
-  @metadata
   Scenario: transitive dependencies in metadata are honored
     Given I write to "Berksfile" with:
       """
@@ -449,8 +448,8 @@ Feature: install cookbooks from a Berksfile
       depends 'mysql', '3.0.2'   # depends on openssl
       depends 'openssl', '1.0.0'
       """
-    When I run `bundle exec berks install`
+    When I run `berks install`
     Then the output should contain:
       """
-      openssl (1.0.0)
+      Installing openssl (1.0.0)
       """
