@@ -49,7 +49,7 @@ module Berkshelf
       #
       # @return [Object]
       def dsl_eval_file(filepath)
-        filepath = filepath.to_s
+        filepath = File.expand_path(filepath.to_s)
         contents = File.read(filepath)
         dsl_eval { eval(contents, binding, filepath, 1) }
       end
